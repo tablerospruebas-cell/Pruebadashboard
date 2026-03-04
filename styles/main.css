@@ -1,277 +1,173 @@
 /* --- Variables de Diseño --- */
-/* El ID #heatmap se ha renombrado a #dashboard para reflejar mejor el propósito de la aplicación */
-#dashboard {
-    --color-primary: #3b82f6; /* blue-500 */
+#heatmap {
+    --color-primary: #3b82f6;
     --color-primary-focus: rgba(59, 130, 246, 0.5);
-    --color-secondary: #64748b; /* slate-500 */
-    --color-danger: #ef4444; /* red-500 */
-    --color-success: #22c55e; /* green-500 */
-    --color-info: #0ea5e9; /* sky-500 */
-    --color-background: #f8fafc; /* slate-50 */
-    --color-surface: #ffffff; /* blanco */
-    --color-text-primary: #0f172a; /* slate-900 */
-    --color-text-secondary: #475569; /* slate-600 */
-    --border-radius: 0.5rem; /* rounded-lg */
-    --border-color: #e2e8f0; /* slate-200 */
+    --color-secondary: #64748b;
+    --color-danger: #ef4444;
+    --color-success: #22c55e;
+    --color-info: #0ea5e9;
+    --color-background: #f8fafc;
+    --color-surface: #ffffff;
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --border-radius: 0.5rem;
+    --border-color: #e2e8f0;
     --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* --- Estilos Base --- */
-#dashboard {
+/* --- Estructura Principal (Layout Fix) --- */
+#heatmap {
     font-family: var(--font-sans);
     color: var(--color-text-primary);
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ocupa el alto total de la pantalla */
+    width: 100%;
+    overflow: hidden; /* Evita scroll general de la página */
 }
 
-/* --- Layout --- */
-#dashboard #map-container {
+/* El contenedor que envuelve controles y mapa */
+#heatmap .cssGrid {
+    display: flex;
+    flex: 1; /* Ocupa todo el espacio restante debajo del disclaimer */
     height: 100%;
+    overflow: hidden;
+    margin: 0;
 }
 
-#dashboard .cssGrid,
-#dashboard .cssGrid > div {
+/* Columna de Controles (Panel Izquierdo) */
+#heatmap .cssGrid > div:first-child {
+    flex: 0 0 350px; /* Ancho fijo para el panel */
     height: 100%;
-}
-
-/* --- Panel de Controles --- */
-#dashboard #controls {
-    height: 100%;
+    overflow-y: auto; /* Permite scroll interno si las instrucciones son largas */
     background-color: var(--color-surface);
     border-right: 1px solid var(--border-color);
+    z-index: 10; /* Por encima del mapa */
     box-shadow: var(--shadow-lg);
+}
+
+/* Columna del Mapa (Panel Derecho) */
+#heatmap .cssGrid > div:last-child {
+    flex: 1; /* Ocupa todo el ancho disponible */
+    height: 100%;
+    position: relative; /* Contenedor de referencia para el mapa absoluto */
+}
+
+#heatmap #heatmap-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Nivel base */
+}
+
+/* --- Panel de Controles Contenido --- */
+#heatmap #controls {
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-}
-
-#dashboard #controls-header {
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid var(--border-color);
-    flex-shrink: 0;
-}
-
-#dashboard #controls-header h1 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0;
-    color: var(--color-text-primary);
-}
-
-#dashboard #controls-main {
-    padding: 1.5rem 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    overflow-y: auto;
-    flex-grow: 1;
-}
-
-/* --- Lista de Unidades --- */
-#dashboard #unit-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-#dashboard .unit-item {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-#dashboard .unit-item:hover {
-    background-color: var(--color-background);
-    border-color: var(--color-primary);
-}
-
-#dashboard .unit-item.active {
-    background-color: #dbeafe; /* blue-100 */
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 1px var(--color-primary);
-}
-
-#dashboard .unit-status {
-    width: 0.75rem;
-    height: 0.75rem;
-    border-radius: 50%;
-    margin-right: 0.75rem;
-    background-color: var(--color-secondary); /* Default: stopped */
-    flex-shrink: 0;
-}
-
-#dashboard .unit-status.moving {
-    background-color: var(--color-success);
-}
-
-#dashboard .unit-name {
-    font-weight: 500;
-    flex-grow: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    gap: 1rem;
 }
 
 /* --- Formularios --- */
-#dashboard label {
+#heatmap label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--color-text-primary);
 }
 
-#dashboard .checkmateFormEditField {
+#heatmap .checkmateFormEditField {
     width: 100%;
-    padding: 0.625rem 0.875rem;
+    padding: 0.625rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     background-color: var(--color-background);
-    color: var(--color-text-primary);
     font-size: 0.875rem;
     transition: all 0.2s ease-in-out;
 }
 
-#dashboard .checkmateFormEditField:focus {
+#heatmap .checkmateFormEditField:focus {
     outline: none;
     border-color: var(--color-primary);
-    background-color: var(--color-surface);
     box-shadow: 0 0 0 3px var(--color-primary-focus);
 }
 
-/* --- Botones --- */
-#dashboard .checkmateButton {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid transparent;
-    border-radius: var(--border-radius);
+/* Botón Submit */
+#heatmap #showHeatMap {
     background-color: var(--color-primary);
     color: white;
-    font-size: 0.875rem;
+    padding: 0.75rem;
+    border: none;
+    border-radius: var(--border-radius);
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    text-align: center;
 }
 
-#dashboard .checkmateButton:hover {
-    background-color: #2563eb; /* blue-600 */
+#heatmap #showHeatMap:hover {
+    filter: brightness(1.1);
 }
 
-#dashboard .checkmateButton:disabled {
-    background-color: var(--color-secondary);
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-/* --- Mensajes y Alertas --- */
-#dashboard #error, #dashboard #message {
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    font-size: 0.875rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #991b1b;
-    background-color: #fef2f2;
-    border: 1px solid #fecaca;
-}
-
-#dashboard #message {
-    color: #075985;
-    background-color: #f0f9ff;
-    border: 1px solid #bae6fd;
-}
-
-/* --- Disclaimer --- */
-#dashboard #disclaimer {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background-color: #f8fafc;
-    border: 1px solid var(--border-color);
-    color: var(--color-text-secondary);
-    border-radius: var(--border-radius);
-    font-size: 0.75rem;
-    margin: 0 2rem 1.5rem 2rem; /* Ajuste para que quede al fondo */
+/* --- Mensajes y Disclaimer --- */
+#heatmap #disclaimer {
     flex-shrink: 0;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
 }
 
-#dashboard #disclaimerLabel {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+#heatmap #disclaimerLabel {
+    font-weight: 700;
     text-transform: uppercase;
     color: var(--color-text-primary);
     margin-right: 0.5rem;
 }
 
-/* --- Spinner de Carga --- */
-#dashboard #loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
+#heatmap #error, #heatmap #message {
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    font-size: 0.8125rem;
+    margin-top: 0.5rem;
 }
 
-#dashboard .spinner {
-    position: relative;
-    width: 120px;
-    height: 120px;
+#heatmap #error {
+    color: #991b1b;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
 }
 
-#dashboard .spinner div {
-    position: absolute;
-    width: 16px;
+/* --- Spinner --- */
+#heatmap #loading {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+#heatmap .spinner div {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
     background: var(--color-primary);
-    animation: spinner_anim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    animation: spinner_anim 1.2s infinite;
 }
-
-#dashboard .spinner div:nth-child(1) { left: 8px; animation-delay: -0.24s; }
-#dashboard .spinner div:nth-child(2) { left: 32px; animation-delay: -0.12s; }
-#dashboard .spinner div:nth-child(3) { left: 56px; animation-delay: 0; }
 
 @keyframes spinner_anim {
-    0% { top: 8px; height: 64px; }
-    50%, 100% { top: 24px; height: 32px; }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.5); }
 }
 
-/* --- Otros --- */
-#dashboard ol {
-    padding-left: 1.5rem;
+/* --- Leaflet UI Overrides --- */
+#heatmap .leaflet-bar {
+    box-shadow: var(--shadow) !important;
+    border: none !important;
 }
 
-/* --- Leaflet Overrides for Modern Look --- */
-#dashboard .leaflet-bar {
-    box-shadow: var(--shadow);
-    border: none;
-}
-#dashboard .leaflet-bar a {
-    background-color: var(--color-surface);
-    color: var(--color-text-primary);
-    border-bottom: 1px solid var(--border-color);
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-    transition: background-color 0.2s;
-}
-#dashboard .leaflet-bar a:hover {
-    background-color: var(--color-background);
-    color: var(--color-primary);
-}
-#dashboard .leaflet-bar a:first-child {
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-}
-#dashboard .leaflet-bar a:last-child {
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
-    border-bottom: none;
+#heatmap .leaflet-bar a {
+    border-bottom: 1px solid var(--border-color) !important;
 }
