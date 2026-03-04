@@ -1,1 +1,144 @@
-@-webkit-keyframes spinner_1{0%{top:20px;height:160px}50%{top:60px;height:80px}100%{top:60px;height:80px}}@keyframes spinner_1{0%{top:20px;height:160px}50%{top:60px;height:80px}100%{top:60px;height:80px}}@-webkit-keyframes spinner_2{0%{top:30px;height:140px}50%{top:60px;height:80px}100%{top:60px;height:80px}}@keyframes spinner_2{0%{top:30px;height:140px}50%{top:60px;height:80px}100%{top:60px;height:80px}}@-webkit-keyframes spinner_3{0%{top:40px;height:120px}50%{top:60px;height:80px}100%{top:60px;height:80px}}@keyframes spinner_3{0%{top:40px;height:120px}50%{top:60px;height:80px}100%{top:60px;height:80px}}#heatmap .spinner{position:relative}#heatmap .spinner div{position:absolute;width:30px}#heatmap .spinner div:nth-child(1){left:35px;background:#fff;-webkit-animation:spinner_1 1s cubic-bezier(0,.5,.5,1) infinite;animation:spinner_1 1s cubic-bezier(0,.5,.5,1) infinite;-webkit-animation-delay:-.2s;animation-delay:-.2s}#heatmap .spinner div:nth-child(2){left:85px;background:#fff;-webkit-animation:spinner_2 1s cubic-bezier(0,.5,.5,1) infinite;animation:spinner_2 1s cubic-bezier(0,.5,.5,1) infinite;-webkit-animation-delay:-.1s;animation-delay:-.1s}#heatmap .spinner div:nth-child(3){left:135px;background:#fff;-webkit-animation:spinner_3 1s cubic-bezier(0,.5,.5,1) infinite;animation:spinner_3 1s cubic-bezier(0,.5,.5,1) infinite}#heatmap #heatmap-map{height:calc(100% + 40px)}#heatmap .cssGrid,#heatmap .cssGrid>div{height:100%}#heatmap .checkmateFormEditField{width:calc(100% - 1em);max-width:100%}#heatmap select.checkmateFormEditField{width:100%}#heatmap label{padding-top:1em;display:block;padding-bottom:.5em}#heatmap #controls{height:100%;padding:20px;background-color:#e5f2fa;border-right:1px solid #ddd}#heatmap #loading{-webkit-transform:scale(.5);transform:scale(.5)}#heatmap #loading>div{background:#2c7ab1}#heatmap #error{margin-top:10px;color:#c00}#heatmap #message{margin-top:10px;color:#0a49f5}#heatmap ol{padding-left:0}#heatmap #disclaimer{background-color:#e5f7fd;border:1px solid #e5f7fd;color:#25477b;fill:#25477b;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;border-radius:6px;padding:4px 6px;position:relative;display:block}#heatmap #disclaimerLabel{font-size:14px;line-height:16px;padding-right:5px;color:#25477b;fill:#25477b;font-weight:600;letter-spacing:2px;margin-right:0;text-transform:uppercase;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+/* --- Variables de Diseño --- */
+#heatmap {
+    --color-primary: #3b82f6; /* azul */
+    --color-secondary: #6b7280; /* gris */
+    --color-danger: #ef4444; /* rojo */
+    --color-success: #22c55e; /* verde */
+    --color-info: #0ea5e9; /* celeste */
+    --color-background: #f9fafb; /* gris muy claro */
+    --color-surface: #ffffff; /* blanco */
+    --color-text-primary: #1f2937; /* gris oscuro */
+    --color-text-secondary: #4b5563; /* gris medio */
+    --border-radius: 0.375rem; /* 6px */
+    --border-color: #d1d5db; /* gris claro */
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- Estilos Base --- */
+#heatmap {
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+}
+
+/* --- Layout --- */
+#heatmap #heatmap-map {
+    height: 100%; /* Simplificado, el calc(100% + 40px) puede ser un hack, revisar si es necesario */
+}
+
+#heatmap .cssGrid,
+#heatmap .cssGrid > div {
+    height: 100%;
+}
+
+/* --- Panel de Controles --- */
+#heatmap #controls {
+    height: 100%;
+    padding: 1.5rem; /* 24px */
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+/* --- Formularios --- */
+#heatmap label {
+    display: block;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+#heatmap .checkmateFormEditField {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--color-background);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#heatmap .checkmateFormEditField:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgb(59 130 246 / 0.3);
+}
+
+/* --- Mensajes y Alertas --- */
+#heatmap #error, #heatmap #message {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    border-width: 1px;
+    border-style: solid;
+}
+
+#heatmap #error {
+    color: #991b1b; /* rojo oscuro */
+    background-color: #fee2e2; /* rojo claro */
+    border-color: #fca5a5;
+}
+
+#heatmap #message {
+    color: #1e40af; /* azul oscuro */
+    background-color: #dbeafe; /* azul claro */
+    border-color: #93c5fd;
+}
+
+/* --- Disclaimer --- */
+#heatmap #disclaimer {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #f0f9ff; /* celeste muy claro */
+    border: 1px solid #e0f2fe;
+    color: #0c4a6e; /* azul marino */
+    fill: #0c4a6e;
+    border-radius: var(--border-radius);
+}
+
+#heatmap #disclaimerLabel {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+/* --- Spinner de Carga --- */
+#heatmap #loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+#heatmap .spinner {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+#heatmap .spinner div {
+    position: absolute;
+    width: 16px;
+    background: var(--color-primary);
+    animation: spinner_anim 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+#heatmap .spinner div:nth-child(1) { left: 8px; animation-delay: -0.24s; }
+#heatmap .spinner div:nth-child(2) { left: 32px; animation-delay: -0.12s; }
+#heatmap .spinner div:nth-child(3) { left: 56px; animation-delay: 0; }
+
+@keyframes spinner_anim {
+    0% { top: 8px; height: 64px; }
+    50%, 100% { top: 24px; height: 32px; }
+}
+
+/* --- Otros --- */
+#heatmap ol {
+    padding-left: 1.5rem;
+}
